@@ -36,9 +36,12 @@ reboot
 This automatically installs all required packages and configures the docker swarm stack.
 ```
 git clone https://gitlab.com/mschoeffmann/docker-swarmbase.git
-cd docker swarmbase
+cd docker-swarmbase
 ./swarmbase install 
 ```
+
+After installing swarmbase, a `reboot` is recommendded.  
+At least wait about 30-60 seconds after installation for all web-interfaces to be available.
 
 ## Configuration
 The local configuration file `.config` is only used for the first installation.
