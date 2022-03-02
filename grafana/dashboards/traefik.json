@@ -25,7 +25,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 12250,
   "graphTooltip": 0,
-  "iteration": 1641208274404,
+  "iteration": 1646183147167,
   "links": [
     {
       "icon": "external link",
@@ -127,11 +127,11 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.3",
+      "pluginVersion": "8.4.2",
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"[5][0-9]{2}\"}[$__interval])) / sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"[1-5][0-9]{2}\"}[$__interval])) * 100",
+          "expr": "sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"[5][0-9]{2}\"}[$__interval])) / sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"[1-5][0-9]{2}\"}[$__interval])) * 100",
           "interval": "",
           "legendFormat": "a",
           "refId": "A"
@@ -215,14 +215,19 @@
           "placement": "right"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.2.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(rate(traefik_service_request_duration_seconds_sum{instance=~\"$instance\"}[$__interval])) by (service) / sum(rate(traefik_service_request_duration_seconds_count{instance=~\"$instance\"}[$__interval])) by (service)",
+          "expr": "sum(rate(traefik_service_request_duration_seconds_sum[$__interval])) by (service) / sum(rate(traefik_service_request_duration_seconds_count[$__interval])) by (service)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -300,11 +305,15 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.3",
+      "pluginVersion": "8.4.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(rate(traefik_entrypoint_request_duration_seconds_sum{instance=~\"$instance\"}[$__interval])) /\nsum(rate(traefik_entrypoint_request_duration_seconds_count{instance=~\"$instance\"}[$__interval])) * 1000",
+          "expr": "sum(rate(traefik_entrypoint_request_duration_seconds_sum[$__interval])) /\nsum(rate(traefik_entrypoint_request_duration_seconds_count[$__interval])) * 1000",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -366,7 +375,8 @@
           "values": false
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "targets": [
@@ -535,14 +545,19 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.2.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"1[0-9]{2}\"}[$__interval]))",
+          "expr": "sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"1[0-9]{2}\"}[$__interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -550,8 +565,12 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"2[0-9]{2}\"}[$__interval]))",
+          "expr": "sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"2[0-9]{2}\"}[$__interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -559,8 +578,12 @@
           "refId": "B"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"3[0-9]{2}\"}[$__interval]))",
+          "expr": "sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"3[0-9]{2}\"}[$__interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -568,8 +591,12 @@
           "refId": "C"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"4[0-9]{2}\"}[$__interval]))",
+          "expr": "sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"4[0-9]{2}\"}[$__interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -577,8 +604,12 @@
           "refId": "D"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"5[0-9]{2}\"}[$__interval]))",
+          "expr": "sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"5[0-9]{2}\"}[$__interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -697,14 +728,19 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.2.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"[1-3][0-9]{2}\"}[$__interval])) by (entrypoint) ",
+          "expr": "sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"[1-3][0-9]{2}\"}[$__interval])) by (entrypoint) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -793,14 +829,19 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.2.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(rate(traefik_service_requests_total{instance=~\"$instance\"}[$__interval]))",
+          "expr": "sum(rate(traefik_service_requests_total[$__interval]))",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -920,14 +961,19 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.2.2",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"[4][0-9]{2}\"}[$__interval]))",
+          "expr": "sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"[4][0-9]{2}\"}[$__interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -935,8 +981,12 @@
           "refId": "A"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
           "exemplar": true,
-          "expr": "sum(increase(traefik_entrypoint_requests_total{instance=~\"$instance\",entrypoint=~\"$entrypoint\",code=~\"[5][0-9]{2}\"}[$__interval]))",
+          "expr": "sum(increase(traefik_entrypoint_requests_total{entrypoint=~\"$entrypoint\",code=~\"[5][0-9]{2}\"}[$__interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1021,7 +1071,8 @@
           "placement": "right"
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.2.2",
@@ -1041,7 +1092,7 @@
       "type": "timeseries"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "datasource": {
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
@@ -1053,529 +1104,562 @@
         "y": 30
       },
       "id": 10,
-      "panels": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [
-                {
-                  "options": {
-                    "match": "null",
-                    "result": {
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "special"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "#EAB839",
-                    "value": 150
-                  },
-                  {
-                    "color": "red",
-                    "value": 300
-                  }
-                ]
-              },
-              "unit": "ms"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 12,
-            "w": 6,
-            "x": 0,
-            "y": 31
-          },
-          "id": 4,
-          "interval": "1m",
-          "links": [],
-          "options": {
-            "colorMode": "value",
-            "fieldOptions": {
-              "calcs": [
-                "mean"
-              ]
-            },
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "mean"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "text": {},
-            "textMode": "auto"
-          },
-          "pluginVersion": "8.2.2",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "sum(rate(traefik_service_request_duration_seconds_sum{instance=~\"$instance\",service=\"$service\"}[$__interval])) /\nsum(rate(traefik_service_request_duration_seconds_count{instance=~\"$instance\",service=\"$service\"}[$__interval])) * 1000",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "",
-              "refId": "A"
-            }
-          ],
-          "timeFrom": "30m",
-          "title": "$service response time",
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                }
-              },
-              "decimals": 0,
-              "mappings": [],
-              "unit": "short"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 12,
-            "w": 9,
-            "x": 6,
-            "y": 31
-          },
-          "id": 2,
-          "interval": "1m",
-          "links": [],
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "table",
-              "placement": "right",
-              "values": [
-                "value",
-                "percent"
-              ]
-            },
-            "pieType": "pie",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "tooltip": {
-              "mode": "multi"
-            }
-          },
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "traefik_service_requests_total{instance=~\"$instance\",service=\"$service\"}",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "{{method}} : {{code}}",
-              "refId": "A"
-            }
-          ],
-          "title": "$service return code",
-          "type": "piechart"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "bars",
-                "fillOpacity": 100,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "normal"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "links": [],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "short"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "1xx"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "blue",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "2xx"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "green",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "3xx"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "purple",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "4xx"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "orange",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "5xx"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "red",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 9,
-            "x": 15,
-            "y": 31
-          },
-          "id": 20,
-          "interval": "1m",
-          "links": [],
-          "options": {
-            "legend": {
-              "calcs": [
-                "mean",
-                "max",
-                "min"
-              ],
-              "displayMode": "hidden",
-              "placement": "bottom"
-            },
-            "tooltip": {
-              "mode": "multi"
-            }
-          },
-          "pluginVersion": "8.2.2",
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "sum(increase(traefik_service_requests_total{instance=~\"$instance\",service=\"$service\",code=~\"1[0-9]{2}\"}[$__interval]))",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "1xx",
-              "refId": "A"
-            },
-            {
-              "exemplar": true,
-              "expr": "sum(increase(traefik_service_requests_total{instance=~\"$instance\",service=\"$service\",code=~\"2[0-9]{2}\"}[$__interval]))",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "2xx",
-              "refId": "B"
-            },
-            {
-              "exemplar": true,
-              "expr": "sum(increase(traefik_service_requests_total{instance=~\"$instance\",service=\"$service\",code=~\"3[0-9]{2}\"}[$__interval]))",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "3xx",
-              "refId": "C"
-            },
-            {
-              "exemplar": true,
-              "expr": "sum(increase(traefik_service_requests_total{instance=~\"$instance\",service=\"$service\",code=~\"4[0-9]{2}\"}[$__interval]))",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "4xx",
-              "refId": "D"
-            },
-            {
-              "exemplar": true,
-              "expr": "sum(increase(traefik_service_requests_total{instance=~\"$instance\",service=\"$service\",code=~\"5[0-9]{2}\"}[$__interval]))",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "5xx",
-              "refId": "E"
-            }
-          ],
-          "title": "$service total requests",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "bars",
-                "fillOpacity": 100,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "normal"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "links": [],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "short"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "1xx"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "super-light-blue",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "2xx"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "green",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "3xx"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "purple",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "4xx"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "orange",
-                      "mode": "fixed"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 6,
-            "w": 9,
-            "x": 15,
-            "y": 37
-          },
-          "id": 21,
-          "interval": "1m",
-          "links": [],
-          "options": {
-            "legend": {
-              "calcs": [
-                "mean",
-                "max",
-                "min"
-              ],
-              "displayMode": "hidden",
-              "placement": "bottom"
-            },
-            "tooltip": {
-              "mode": "multi"
-            }
-          },
-          "pluginVersion": "8.2.2",
-          "targets": [
-            {
-              "expr": "sum(increase(traefik_service_requests_total{service=\"$service\"}[$__interval])) by (method)",
-              "format": "time_series",
-              "interval": "",
-              "intervalFactor": 1,
-              "legendFormat": "{{method}}",
-              "refId": "A"
-            }
-          ],
-          "title": "$service total requests",
-          "type": "timeseries"
-        }
-      ],
+      "panels": [],
       "repeat": "service",
       "title": "$service stats",
       "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 150
+              },
+              {
+                "color": "red",
+                "value": 300
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 6,
+        "x": 0,
+        "y": 31
+      },
+      "id": 4,
+      "interval": "1m",
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ]
+        },
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(rate(traefik_service_request_duration_seconds_sum{service=\"$service\"}[$__interval])) /\nsum(rate(traefik_service_request_duration_seconds_count{service=\"$service\"}[$__interval])) * 1000",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": "30m",
+      "title": "$service response time",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 9,
+        "x": 6,
+        "y": 31
+      },
+      "id": 2,
+      "interval": "1m",
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "traefik_service_requests_total{service=\"$service\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{method}} : {{code}}",
+          "refId": "A"
+        }
+      ],
+      "title": "$service return code",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "2xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "3xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "4xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "5xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 15,
+        "y": 31
+      },
+      "id": 20,
+      "interval": "1m",
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(traefik_service_requests_total{service=\"$service\",code=~\"1[0-9]{2}\"}[$__interval]))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "1xx",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(traefik_service_requests_total{service=\"$service\",code=~\"2[0-9]{2}\"}[$__interval]))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "2xx",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(traefik_service_requests_total{service=\"$service\",code=~\"3[0-9]{2}\"}[$__interval]))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "3xx",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(traefik_service_requests_total{service=\"$service\",code=~\"4[0-9]{2}\"}[$__interval]))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "4xx",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "exemplar": true,
+          "expr": "sum(increase(traefik_service_requests_total{service=\"$service\",code=~\"5[0-9]{2}\"}[$__interval]))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "5xx",
+          "refId": "E"
+        }
+      ],
+      "title": "$service total requests",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "2xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "3xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "4xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 15,
+        "y": 37
+      },
+      "id": 21,
+      "interval": "1m",
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "expr": "sum(increase(traefik_service_requests_total{service=\"$service\"}[$__interval])) by (method)",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{method}}",
+          "refId": "A"
+        }
+      ],
+      "title": "$service total requests",
+      "type": "timeseries"
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 34,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [
     "prometheus",
@@ -1586,41 +1670,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
-        "definition": "label_values({job=~\"ingress_traefik\"}, instance)",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Instance",
-        "multi": true,
-        "name": "instance",
-        "options": [],
-        "query": {
-          "query": "label_values({job=~\"ingress_traefik\"}, instance)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "current": {
-          "selected": true,
+          "selected": false,
           "text": [
             "All"
           ],
@@ -1655,7 +1705,7 @@
       {
         "allValue": "",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": [
             "http",
             "https"
@@ -1722,6 +1772,6 @@
   "timezone": "utc",
   "title": "Traefik",
   "uid": "jkor8p5oiknp",
-  "version": 33,
+  "version": 1,
   "weekStart": ""
 }
