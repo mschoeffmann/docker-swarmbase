@@ -1,0 +1,25 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT DROP [0:0]
+:DOCKER-USER - [0:0]
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p icmpv6 -j ACCEPT
+-A INPUT -p udp --dport 33434:33474 -j REJECT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -i en+ -j ACCEPT
+-A INPUT -i eth0 -p tcp --dport 22 -j ACCEPT
+-A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -j ACCEPT
+-I DOCKER-USER 1 -i eth0 -m state --state RELATED,ESTABLISHED -j RETURN
+-I DOCKER-USER 2 -i eth0 -p tcp --dport 80 -j RETURN
+-I DOCKER-USER 3 -i eth0 -p tcp --dport 443 -j RETURN
+-I DOCKER-USER 4 -i eth0 -p tcp --dport 8443 -j RETURN
+-I DOCKER-USER 5 -i eth0 -j DROP
+COMMIT
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+COMMIT

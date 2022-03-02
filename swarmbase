@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+cd $(dirname $0)
+
+if [[ ! -f ${PWD}/.config ]]; then
+
+	cat <<-EOT > .config
+	# set this to internal ip if you are using an internal network
+	SWARM_MANAGER=""
+
+	# use 'acme-staging-v02' for testing or 'acme-v02' for production
+	LETSENCRYPT_SERVER="acme-v02"
+
+	# set your letsencrypt email address
+	LETSENCRYPT_MAIL="letsencrypt@swarmbase.example.com"
+
+	# set the domain name for management apps like 'swarmbase.example.com'
+	# also create a wildcard '*.swarmbase.example.com' to enable management apps
+	ADMIN_HOSTNAME="swarmbase.example.com"
+
+	# the default admin password for management apps
+	ADMIN_PASSWORD="Pa55w0rd!"
+	EOT
+
+	vi .config
+fi
+
+set -a
+source .config
+set +a
+
+install_docker () {
+	echo ">>> RUNNING INSTALL_DOCKER ..."
+	apt-get remove -y docker docker-engine docker.io containerd runc || true
+	apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+	add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs) stable"
+	apt-get update
+	apt-get install -y docker-ce docker-ce-cli containerd.io
+}
+
+init_swarm () {
+	echo ">>> RUNNING INIT_SWARM ..."
+	docker swarm init --advertise-addr=${SWARM_MANAGER}
+}
+
+create_network () {
+	echo ">>> RUNNING CREATE_NETWORK ..."
+	docker network create --driver overlay --attachable proxy || true
+	docker network create --driver overlay --attachable --internal metrics || true
+}
+
+configure_firewall () {
+	echo ">>> RUNNING CONFIGURE_FIREWALL ..."
+	echo iptables-persistent iptables-persistent/autosave_v4 boolean false | debconf-set-selections
+	echo iptables-persistent iptables-persistent/autosave_v6 boolean false | debconf-set-selections
+	apt-get -qq install -y iptables-persistent
+	cp iptables.v4 /etc/iptables/rules.v4
+	cp iptables.v6 /etc/iptables/rules.v6
+}
+
+deploy_admin () {
+	echo ">>> RUNNING DEPLOY_ADMIN ..."
+	echo ${ADMIN_PASSWORD} > .admin-password
+	docker stack remove admin || true
+	sleep 10
+	docker stack deploy --compose-file docker-stack-admin.yml admin
+	rm -f .admin-password
+}
+
+deploy_proxy () {
+	echo ">>> RUNNING DEPLOY_PROXY ..."
+	docker stack remove proxy || true
+	sleep 10
+	docker stack deploy --compose-file docker-stack-proxy.yml proxy
+}
+
+update_admin () {
+	echo ">>> RUNNING UPDATE_ADMIN ..."
+	docker stack deploy --prune --compose-file docker-stack-admin.yml admin
+}
+
+update_proxy () {
+	echo ">>> RUNNING UPDATE_PROXY ..."
+	docker stack deploy --prune --compose-file docker-stack-proxy.yml proxy
+}
+
+[[ $1 == install_docker ]] && install_docker
+[[ $1 == init_swarm ]] && init_swarm
+[[ $1 == create_network ]] && create_network
+[[ $1 == configure_firewall ]] && configure_firewall
+[[ $1 == deploy_admin ]] && deploy_admin
+[[ $1 == deploy_proxy ]] && deploy_proxy
+[[ $1 == update_admin ]] && update_admin
+[[ $1 == update_proxy ]] && update_proxy
+
+if [[ $1 == install ]]; then
+	install_docker
+	init_swarm
+	create_network
+	configure_firewall
+	deploy_admin
+	deploy_proxy
+fi
+
+exit 0

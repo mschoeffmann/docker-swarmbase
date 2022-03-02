@@ -1,0 +1,84 @@
+global:
+  scrape_interval:     1m
+  evaluation_interval: 1m
+
+scrape_configs:
+
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: [ 'localhost:9090' ]
+
+  - job_name: 'node-exporter'
+    scrape_interval: 15s
+    metrics_path: /metrics
+    dockerswarm_sd_configs:
+      - host: unix:///var/run/docker.sock
+        role: tasks
+        port: 9100
+    relabel_configs:
+      - source_labels: [__meta_dockerswarm_task_desired_state]
+        regex: running
+        action: keep
+      - source_labels: [__meta_dockerswarm_network_name]
+        regex: metrics
+        action: keep
+      - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
+        regex: node-exporter
+        action: keep
+      - regex: __meta_dockerswarm_service_label_prometheus_(.+)
+        action: labelmap
+        replacement: $1
+      - source_labels: [__meta_dockerswarm_node_hostname]
+        target_label: instance
+
+
+  - job_name: 'cadvisor'
+    scrape_interval: 15s
+    metrics_path: /metrics
+    dockerswarm_sd_configs:
+      - host: unix:///var/run/docker.sock
+        role: tasks
+        port: 8080
+    relabel_configs:
+      - source_labels: [__meta_dockerswarm_task_desired_state]
+        regex: running
+        action: keep
+      - source_labels: [__meta_dockerswarm_network_name]
+        regex: metrics
+        action: keep
+      - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
+        regex: cadvisor
+        action: keep
+      - regex: __meta_dockerswarm_service_label_prometheus_(.+)
+        action: labelmap
+        replacement: $1
+      - source_labels: [__meta_dockerswarm_node_hostname]
+        target_label: instance
+
+  - job_name: 'traefik'
+    scrape_interval: 15s
+    metrics_path: /metrics
+    dockerswarm_sd_configs:
+      - host: unix:///var/run/docker.sock
+        role: tasks
+        port: 6001
+    relabel_configs:
+      - source_labels: [__address__]
+        action: replace
+        regex: ([^:]+):.*
+        replacement: $1:6001
+        target_label: __address__
+      - source_labels: [__meta_dockerswarm_task_desired_state]
+        regex: running
+        action: keep
+      - source_labels: [__meta_dockerswarm_network_name]
+        regex: metrics
+        action: keep
+      - source_labels: [__meta_dockerswarm_service_label_prometheus_job]
+        regex: traefik
+        action: keep
+      - regex: __meta_dockerswarm_service_label_prometheus_(.+)
+        action: labelmap
+        replacement: $1
+      - source_labels: [__meta_dockerswarm_node_hostname]
+        target_label: instance

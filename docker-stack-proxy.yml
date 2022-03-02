@@ -1,0 +1,98 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:latest
+    command:
+      - "--global.sendAnonymousUsage=false"
+      - "--api.dashboard=true"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
+      - "--metrics.prometheus.addEntryPointsLabels=true"
+      - "--metrics.prometheus.addServicesLabels=true"
+      - "--pilot.dashboard=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.swarmmode=true"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--entrypoints.admin.address=:8443"
+      - "--entrypoints.traefik.address=:6001"
+      - "--certificatesresolvers.leresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.leresolver.acme.caserver=https://${LETSENCRYPT_SERVER}.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.leresolver.acme.email=${LETSENCRYPT_MAIL}"
+      - "--certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
+        protocol: tcp
+        mode: host
+      - target: 8443
+        published: 8443
+        protocol: tcp
+        mode: host
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - letsencrypt-data:/letsencrypt
+    networks:
+      - metrics
+      - proxy
+    deploy:
+      mode: global
+      update_config:
+        parallelism: 1
+        delay: 10s
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - "prometheus-job=traefik"
+        - "traefik.enable=true"
+        - "traefik.http.services.api.loadbalancer.server.port=6001"
+        - "traefik.http.routers.api.rule=HostRegexp(`{host:.+}`)"
+        - "traefik.http.routers.api.entrypoints=traefik"
+        - "traefik.http.routers.api.service=api@internal"
+        - "traefik.http.routers.http-catchall.rule=HostRegexp(`{any:.+}`)"
+        - "traefik.http.routers.http-catchall.entrypoints=http"
+        - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+        - "traefik.http.middlewares.hsts-180d.headers.stsSeconds=15552000"
+        - "traefik.http.middlewares.hsts-180d.headers.stsIncludeSubdomains=true"
+        - "traefik.http.middlewares.hsts-180d.headers.stsPreload=true"
+        - "traefik.http.middlewares.hsts-180d.headers.forceSTSHeader=true"
+
+  whoami:
+    image: containous/whoami:latest
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - proxy
+    deploy:
+      mode: replicated
+      placement:
+        constraints: 
+          - node.platform.os == linux
+      replicas: 0
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.whoami.rule=Host(`whoami.${ADMIN_HOSTNAME}`)"
+        - "traefik.http.routers.whoami.entrypoints=https"
+        - "traefik.http.routers.whoami.tls=true"
+        - "traefik.http.routers.whoami.tls.certresolver=leresolver"
+        - "traefik.http.services.whoami.loadbalancer.server.port=80"
+        - "traefik.docker.network=proxy"
+
+volumes:
+  letsencrypt-data:
+
+networks:
+  metrics:
+    external: true
+  proxy:
+    external: true
