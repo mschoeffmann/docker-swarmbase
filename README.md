@@ -97,10 +97,11 @@ The `swarmbase` script offers a few cli commands.
 
 ## Example Stack
 You can use add a test service to your Docker Swarmbase server:
-1. Open Portainer and log in
-2. Go to: Stacks > Add stack
-3. Choose a name for the stack: `test-service`
-4. Use the following example as content for the web editor, but make sure you change `swarmbase.example.com` to your server's hostname.
+1. Open Portainer
+2. Open the *primary* environment
+3. Go to: Stacks > Add stack
+4. Choose a name for the stack: `test-service`
+5. Use the following example as content for the web editor, but make sure you change `swarmbase.example.com` to your server's hostname.
 ```yaml
 version: "3.8"
 
@@ -130,6 +131,7 @@ networks:
   proxy:
     external: true
 ```
+6. After a 30-60 seconds, you find a test-site at `https://test-service.swarmbase.example.com`
 
 For production deployment, every service has to have a unique *router* and *services* id, so make sure you change `test-service` to something unique for each service on your swarm.
 
