@@ -77,6 +77,11 @@ deploy_proxy () {
 	docker stack deploy --compose-file docker-stack-proxy.yml proxy
 }
 
+update_source () {
+	echo ">>> RUNNING UPDATE_SOURCE ..."
+	git pull
+}
+
 update_admin () {
 	echo ">>> RUNNING UPDATE_ADMIN ..."
 	docker stack deploy --prune --compose-file docker-stack-admin.yml admin
@@ -103,6 +108,12 @@ if [[ $1 == install ]]; then
 	configure_firewall
 	deploy_admin
 	deploy_proxy
+fi
+
+if [[ $1 == update ]]; then
+	update_source
+	update_admin
+	update_proxy
 fi
 
 exit 0

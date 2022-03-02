@@ -66,11 +66,19 @@ Password: *as specified on installation*
 The `swarmbase` script offers a few cli commands.
 
 ```bash
+# update installation
+./swarmbase update
+```
+
+```bash
 # update the admin stack
 ./swarmbase update_admin
 
 # update the proxy stack
 ./swarmbase update_proxy
+
+# update source files from git
+./swarmbase update_source
 ```
 
 ```bash
