@@ -84,7 +84,9 @@ update_source () {
 
 update_admin () {
 	echo ">>> RUNNING UPDATE_ADMIN ..."
+	echo ${ADMIN_PASSWORD} > .admin-password
 	docker stack deploy --prune --compose-file docker-stack-admin.yml admin
+	rm -f .admin-password
 }
 
 update_proxy () {
