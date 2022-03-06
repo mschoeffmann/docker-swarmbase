@@ -4,6 +4,9 @@ A minimalistic Docker Swarm base setup featuring ready-to-use [Portainer](https:
 
 [[_TOC_]]
 
+This boilerplate/template project has been created as a starting-point for my projects.  
+Feel free to add suggestions, feedback or improvements to the issue tracker.
+
 ## Features
 - Automated installation and initialization of Docker Swarm
 - Basic firewall rules to allow only ports 22, 80, 443 and 8443
@@ -24,6 +27,9 @@ Replace `swarmbase.example.com` with your own hostname for the whole installatio
 - Create DNS entries `swarmbase.example.com` and `*.swarmbase.example.com` (wildcard)  
   pointing to your server's IP address
 - Start up the server and log in as root
+
+*The wildcard DNS provides an easy way of adding Stacks later (like mystack.swarmbase.example.com).  
+If a wildcard DNS entry is not possible, make sure you create at least `grafana.swarmbase.example.com` and `portainer.swarmbase.example.com`.*
 
 ### Updating the server
 ```bash
@@ -109,7 +115,9 @@ You can use add a test service to your Docker Swarmbase server:
 2. Open the *primary* environment
 3. Go to: Stacks > Add stack
 4. Choose a name for the stack: `test-service`
-5. Use the following example as content for the web editor, but make sure you change `swarmbase.example.com` to your server's hostname.
+5. Use the example code below as content for the web editor, but make sure you change `swarmbase.example.com` to your server's hostname.
+6. After a 30-60 seconds, you find a test-site at `https://test-service.swarmbase.example.com`
+
 ```yaml
 version: "3.8"
 
@@ -139,7 +147,6 @@ networks:
   proxy:
     external: true
 ```
-6. After a 30-60 seconds, you find a test-site at `https://test-service.swarmbase.example.com`
 
 For production deployment, every service has to have a unique *router* and *services* id, so make sure you change `test-service` to something unique for each service on your swarm.
 
