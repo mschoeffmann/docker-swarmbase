@@ -133,7 +133,6 @@ services:
         - "traefik.http.routers.test-service.tls=true"
         - "traefik.http.routers.test-service.tls.certresolver=leresolver"
         - "traefik.http.services.test-service.loadbalancer.server.port=80"
-        - "traefik.docker.network=proxy"
           
 networks:
   proxy:
