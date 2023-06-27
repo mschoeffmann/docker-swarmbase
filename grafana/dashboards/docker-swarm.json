@@ -697,7 +697,7 @@
       "pluginVersion": "8.4.2",
       "targets": [
         {
-          "expr": "sum((node_filesystem_free_bytes{device=\"/dev/sda1\",mountpoint=\"/\",instance=~\"$node_id\"} / node_filesystem_size_bytes{device=\"/dev/sda1\",mountpoint=\"/\",instance=~\"$node_id\"}) * 100) / count(node_filesystem_size_bytes{device=\"/dev/sda1\",mountpoint=\"/\",instance=~\"$node_id\"})",
+          "expr": "sum((node_filesystem_free_bytes{mountpoint=\"/\",instance=~\"$node_id\"} / node_filesystem_size_bytes{mountpoint=\"/\",instance=~\"$node_id\"}) * 100) / count(node_filesystem_size_bytes{mountpoint=\"/\",instance=~\"$node_id\"})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
