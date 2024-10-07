@@ -1,6 +1,19 @@
 version: "3.8"
 
 services:
+  agent:
+    image: portainer/agent:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    networks:
+      - agent
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.platform.os == linux
+
   prometheus:
     image: prom/prometheus:latest
     volumes:
@@ -112,7 +125,7 @@ services:
 
   portainer:
     image: portainer/portainer-ce:latest
-    command: -H tcp://tasks.agent:9001 --tlsskipverify --admin-password-file /run/secrets/admin-password --templates "https://localhost/no-template-file.json"
+    command: --host tcp://tasks.agent:9001 --tlsskipverify --admin-password-file /run/secrets/admin-password --templates "https://localhost/no-template-file.json"
     secrets:
       - admin-password
     volumes:
@@ -121,7 +134,8 @@ services:
       - agent
       - proxy
     deploy:
-      mode: global
+      mode: replicated
+      replicas: 0 # workaround because endpoint is not set up when agent is not started
       placement:
         constraints:
           - node.platform.os == linux
@@ -134,19 +148,6 @@ services:
         - "traefik.http.routers.admin-portainer.tls.certresolver=leresolver"
         - "traefik.http.services.admin-portainer.loadbalancer.server.port=9000"
         - "traefik.docker.network=proxy"
-
-  agent:
-    image: portainer/agent:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-    networks:
-      - agent
-    deploy:
-      mode: global
-      placement:
-        constraints:
-          - node.platform.os == linux
 
 secrets:
   admin-password:

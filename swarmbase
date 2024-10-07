@@ -66,7 +66,8 @@ deploy_admin () {
 	echo ${ADMIN_PASSWORD} > .admin-password
 	docker stack remove admin || true
 	sleep 10
-	docker stack deploy --compose-file docker-stack-admin.yml admin
+	docker stack deploy --detach=false --compose-file docker-stack-admin.yml admin
+	docker service scale admin_portainer=1
 	rm -f .admin-password
 }
 
@@ -74,7 +75,7 @@ deploy_proxy () {
 	echo ">>> RUNNING DEPLOY_PROXY ..."
 	docker stack remove proxy || true
 	sleep 10
-	docker stack deploy --compose-file docker-stack-proxy.yml proxy
+	docker stack deploy --detach=false --compose-file docker-stack-proxy.yml proxy
 }
 
 update_source () {
@@ -85,13 +86,14 @@ update_source () {
 update_admin () {
 	echo ">>> RUNNING UPDATE_ADMIN ..."
 	echo ${ADMIN_PASSWORD} > .admin-password
-	docker stack deploy --prune --compose-file docker-stack-admin.yml admin
+	docker stack deploy --detach=true --prune --compose-file docker-stack-admin.yml admin
+	docker service scale admin_portainer=1
 	rm -f .admin-password
 }
 
 update_proxy () {
 	echo ">>> RUNNING UPDATE_PROXY ..."
-	docker stack deploy --prune --compose-file docker-stack-proxy.yml proxy
+	docker stack deploy --detach=true --prune --compose-file docker-stack-proxy.yml proxy
 }
 
 [[ $1 == install_docker ]] && install_docker
