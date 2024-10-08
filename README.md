@@ -13,9 +13,10 @@ Feel free to add suggestions, feedback or improvements to the issue tracker.
 - Portainer instance for stack- & container management
 - Grafana and Prometheus monitoring inkl. ready-to-use dashboards
 - Traefik ingress proxy with included SSL/TLS support and Let's Encrypt certificate management
+- Automatic HTTP to HTTPS redirect
 
 ## Requirements
-- Ubuntu Linux 20.04 LTS host system
+- Ubuntu Linux 24.04 LTS host system
 - Public IPv4 address
 
 ## Installation
@@ -29,7 +30,7 @@ Replace `swarmbase.example.com` with your own hostname for the whole installatio
 - Start up the server and log in as root
 
 *The wildcard DNS provides an easy way of adding Stacks later (like mystack.swarmbase.example.com).  
-If a wildcard DNS entry is not possible, make sure you create at least `grafana.swarmbase.example.com` and `portainer.swarmbase.example.com`.*
+If a wildcard DNS entry is not possible, make sure you create at least `grafana.swarmbase.example.com`, `traefik.swarmbase.example.com` and `portainer.swarmbase.example.com`.*
 
 ### Updating the server
 ```bash
@@ -63,6 +64,7 @@ The local configuration file `.config` is only used for the first installation.
 After a successful installation, you have the following web management interfaces available:
 - Portainer (management): `https://portainer.swarmbase.example.com:8443`
 - Grafana (monitoring): `https://grafana.swarmbase.example.com:8443`
+- Traefik (dashboard): `https://traefik.swarmbase.example.com:8443`
 
 *Replace `swarmbase.example.com` with your server's hostname.*  
 Username: `admin`  
@@ -138,8 +140,6 @@ services:
         - "traefik.enable=true"
         - "traefik.http.routers.test-service.rule=Host(`test-service.swarmbase.example.com`)"
         - "traefik.http.routers.test-service.entrypoints=https"
-        - "traefik.http.routers.test-service.tls=true"
-        - "traefik.http.routers.test-service.tls.certresolver=leresolver"
         - "traefik.http.services.test-service.loadbalancer.server.port=80"
           
 networks:
