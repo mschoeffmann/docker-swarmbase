@@ -66,8 +66,6 @@ services:
         - "traefik.enable=true"
         - "traefik.http.routers.admin-grafana.rule=Host(`grafana.${ADMIN_HOSTNAME}`)"
         - "traefik.http.routers.admin-grafana.entrypoints=admin"
-        - "traefik.http.routers.admin-grafana.tls=true"
-        - "traefik.http.routers.admin-grafana.tls.certresolver=leresolver"
         - "traefik.http.services.admin-grafana.loadbalancer.server.port=3000"
         - "traefik.docker.network=proxy"
 
@@ -144,8 +142,6 @@ services:
         - "traefik.enable=true"
         - "traefik.http.routers.admin-portainer.rule=Host(`portainer.${ADMIN_HOSTNAME}`)"
         - "traefik.http.routers.admin-portainer.entrypoints=admin"
-        - "traefik.http.routers.admin-portainer.tls=true"
-        - "traefik.http.routers.admin-portainer.tls.certresolver=leresolver"
         - "traefik.http.services.admin-portainer.loadbalancer.server.port=9000"
         - "traefik.docker.network=proxy"
 
