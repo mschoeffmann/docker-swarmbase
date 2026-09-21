@@ -42,7 +42,7 @@ reboot
 ### Installing Swarmbase
 This automatically installs all required packages and configures the docker swarm stack.
 ```
-git clone https://gitlab.com/mschoeffmann/docker-swarmbase.git
+git clone https://github.com/mschoeffmann/docker-swarmbase.git
 cd docker-swarmbase
 ./swarmbase install 
 ```
@@ -116,7 +116,7 @@ You can use add a test service to your Docker Swarmbase server:
 1. Open Portainer
 2. Open the *primary* environment
 3. Go to: Stacks > Add stack
-4. Choose a name for the stack: `test-service`
+4. Choose a name for the stack: `CHANGEMETESTSERVICE`
 5. Use the example code below as content for the web editor, but make sure you change `swarmbase.example.com` to your server's hostname.
 6. After a 30-60 seconds, you find a test-site at `https://test-service.swarmbase.example.com`
 
@@ -124,7 +124,7 @@ You can use add a test service to your Docker Swarmbase server:
 version: "3.8"
 
 services:
-  test-service:
+  CHANGEMETESTSERVICE:
     image: containous/whoami:latest
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -138,15 +138,15 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.test-service.rule=Host(`test-service.swarmbase.example.com`)"
-        - "traefik.http.routers.test-service.entrypoints=https"
-        - "traefik.http.services.test-service.loadbalancer.server.port=80"
+        - "traefik.http.routers.CHANGEMETESTSERVICE.rule=Host(`test-service.swarmbase.example.com`)"
+        - "traefik.http.routers.CHANGEMETESTSERVICE.entrypoints=https"
+        - "traefik.http.services.CHANGEMETESTSERVICE.loadbalancer.server.port=80"
           
 networks:
   proxy:
     external: true
 ```
 
-For production deployment, every service has to have a unique *router* and *services* id, so make sure you change `test-service` to something unique for each service on your swarm.
+For production deployment, every service has to have a unique *router* and *services* id, so make sure you change `CHANGEMETESTSERVICE` to something unique for each service on your swarm.
 
 More information can be found at [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/compose-file-v3/) and [Traefik & Docker](https://doc.traefik.io/traefik/providers/docker/).
