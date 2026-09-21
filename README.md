@@ -118,7 +118,7 @@ You can use add a test service to your Docker Swarmbase server:
 3. Go to: Stacks > Add stack
 4. Choose a name for the stack: `CHANGEMETESTSERVICE`
 5. Use the example code below as content for the web editor, but make sure you change `swarmbase.example.com` to your server's hostname.
-6. After a 30-60 seconds, you find a test-site at `https://test-service.swarmbase.example.com`
+6. After a 30-60 seconds, you find a test-site at `https://CHANGEMETESTSERVICE.swarmbase.example.com`
 
 ```yaml
 version: "3.8"
@@ -138,7 +138,7 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.CHANGEMETESTSERVICE.rule=Host(`test-service.swarmbase.example.com`)"
+        - "traefik.http.routers.CHANGEMETESTSERVICE.rule=Host(`CHANGEMETESTSERVICE.swarmbase.example.com`)"
         - "traefik.http.routers.CHANGEMETESTSERVICE.entrypoints=https"
         - "traefik.http.services.CHANGEMETESTSERVICE.loadbalancer.server.port=80"
           
